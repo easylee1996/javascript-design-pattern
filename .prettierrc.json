@@ -1,0 +1,17 @@
+{
+  "useEditorConfig": false,
+  "tabWidth": 2,
+  "printWidth": 130,
+  "proseWrap": "preserve",
+  "useTabs": false,
+  "singleQuote": true,
+  "semi": false,
+  "insertPragma": false,
+  "trailingComma": "all",
+  "htmlWhitespaceSensitivity": "ignore",
+  "bracketSameLine": false,
+  "quoteProps": "as-needed",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "jsxSingleQuote": true
+}
