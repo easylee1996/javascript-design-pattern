@@ -1,33 +1,35 @@
-var name = 'window'
-var person1 = {
-  name: 'person1',
-  foo1: function () {
-    console.log(this.name)
-  },
-  foo2: () => console.log(this.name),
-  foo3: function () {
-    return function () {
-      console.log(this.name)
+Function.prototype.myBind = function (context, ...args) {
+  if (typeof this !== 'function') {
+    throw new Error('Function.prototype.bind - what is trying to be bound is not callable')
+  }
+
+  context = context || (typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : undefined)
+
+  const _this = this
+  return function fn(...innerArgs) {
+    // judge whether call myBind through new
+    if (this instanceof fn) {
+      return new _this(...args, ...innerArgs)
     }
-  },
-  foo4: function () {
-    return () => {
-      console.log(this.name)
-    }
+    return _this.apply(context, args.concat(innerArgs))
+  }
+}
+
+// test
+const test = {
+  name: 'xxx',
+  hello: function (a, b, c) {
+    console.log(`hello,${this.name}!`, a + b + c)
   },
 }
-var person2 = { name: 'person2' }
-
-person1.foo1() // person1
-person1.foo1.call(person2) // person2
-
-person1.foo2() // window
-person1.foo2.call(person2) // window
-
-person1.foo3()() // window
-person1.foo3.call(person2)() // window
-person1.foo3().call(person2) // person2
-
-person1.foo4()() // person1
-person1.foo4.call(person2)() // person2
-person1.foo4().call(person2) // person1
+const obj = { name: 'world' }
+let hello1 = test.hello.myBind(obj, 1)
+let hello2 = test.hello.bind(obj, 1)
+hello1(2, 3) //hello,world! 6
+hello2(2, 3) //hello,world! 6
+console.log(new hello1(2, 3))
+//hello,undefined! 6
+// hello {}
+console.log(new hello2(2, 3))
+//hello,undefined! 6
+// hello {}
