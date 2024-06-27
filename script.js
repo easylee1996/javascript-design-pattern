@@ -1,0 +1,6 @@
+let firstName = null
+let lastName = null
+let nickName = 'Supercoder'
+
+// 显示第一个真值：
+alert(firstName || lastName || nickName || 'Anonymous') // Supercoder
